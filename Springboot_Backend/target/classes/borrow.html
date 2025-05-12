@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Borrow a Book</title>
+    <style>
+        #message {
+            margin-top: 10px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h2>Borrow a Book</h2>
+
+    <label for="bookId">Book ID:</label><br>
+    <input type="text" id="bookId"><br><br>
+
+    <label for="userId">User ID:</label><br>
+    <input type="text" id="userId"><br><br>
+
+    <button onclick="borrowBook()">Borrow Book</button>
+
+    <div id="message"></div>
+
+    <script>
+        function borrowBook() {
+            const bookId = document.getElementById('bookId').value;
+            const userId = document.getElementById('userId').value;
+
+            fetch(`http://localhost:8080/library/borrow?bookId=${bookId}&userId=${userId}`, {
+                method: 'POST'
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('message').innerText = data;
+            })
+            .catch(error => {
+                document.getElementById('message').innerText = 'Failed to borrow book';
+            });
+        }
+    </script>
+</body>
+</html>
